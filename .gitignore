@@ -5,8 +5,12 @@
 node_modules/
 
 # Build output
+dist/
 .next/
 out/
+
+# Worktrees
+.worktrees/
 
 # Env files
 .env
