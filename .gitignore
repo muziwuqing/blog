@@ -1,0 +1,22 @@
+# Claude Code
+.claude/
+
+# Dependencies
+node_modules/
+
+# Build output
+.next/
+out/
+
+# Env files
+.env
+.env.local
+.env*.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
