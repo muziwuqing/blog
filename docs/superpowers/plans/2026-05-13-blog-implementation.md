@@ -31,7 +31,7 @@ pnpm create astro@latest . -- --template basics --typescript strict --install
 - [ ] **Step 2: 安装核心依赖**
 
 ```bash
-pnpm add @astrojs/preact preact @astrojs/mdx @astrojs/tailwindcss tailwindcss @tailwindcss/typography @astrojs/rss
+pnpm add @astrojs/preact preact @astrojs/mdx @tailwindcss/vite tailwindcss @tailwindcss/typography @astrojs/rss
 ```
 
 - [ ] **Step 3: 安装动效相关依赖**
@@ -50,19 +50,22 @@ react-typed — 打字机效果
 import { defineConfig } from 'astro/config';
 import preact from '@astrojs/preact';
 import mdx from '@astrojs/mdx';
-import tailwindcss from '@astrojs/tailwindcss';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   integrations: [
     preact({ compat: true }),
     mdx(),
-    tailwindcss(),
   ],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   output: 'static',
   site: 'https://muzuwuqing.com',
 });
 ```
 
+Astro 6 + Tailwind v4 使用 `@tailwindcss/vite` 直接作为 Vite 插件，不再通过 `@astrojs/tailwindcss`。
 Preact compat 模式让 react-typed、@tsparticles/preact 等 React 生态库能兼容运行。
 
 - [ ] **Step 5: 验证脚手架**
