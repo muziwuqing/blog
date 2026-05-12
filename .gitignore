@@ -9,6 +9,9 @@ dist/
 .next/
 out/
 
+# Astro
+.astro/
+
 # Worktrees
 .worktrees/
 
