@@ -8,10 +8,14 @@ export default function ThemeToggle() {
   }, []);
 
   function toggle() {
+    document.documentElement.classList.add('dark-transition');
     const next = !dark;
     setDark(next);
     document.documentElement.classList.toggle('dark', next);
     localStorage.setItem('theme', next ? 'dark' : 'light');
+    setTimeout(() => {
+      document.documentElement.classList.remove('dark-transition');
+    }, 300);
   }
 
   return (

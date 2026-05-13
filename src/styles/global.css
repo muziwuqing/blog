@@ -28,6 +28,20 @@ body {
   @apply bg-bg-dark text-text-dark;
 }
 
+/* 所有元素颜色过渡 */
+*,
+*::before,
+*::after {
+  transition-property: color, background-color, border-color;
+  transition-duration: 0ms;
+}
+
+.dark-transition *,
+.dark-transition *::before,
+.dark-transition *::after {
+  transition-duration: 300ms;
+}
+
 .prose {
   @apply max-w-none;
 }
