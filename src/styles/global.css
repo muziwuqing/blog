@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #3b82f6;
+  --color-primary-dark: #60a5fa;
+  --color-bg: #ffffff;
+  --color-bg-dark: #0f172a;
+  --color-text: #1e293b;
+  --color-text-dark: #e2e8f0;
+  --color-card: #f8fafc;
+  --color-card-dark: #1e293b;
+  --color-border: #e2e8f0;
+  --color-border-dark: #334155;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-bg text-text transition-colors duration-300;
+}
+
+.dark body {
+  @apply bg-bg-dark text-text-dark;
+}
+
+.prose {
+  @apply max-w-none;
+}
+
+.prose pre {
+  @apply rounded-lg border border-border dark:border-border-dark;
+}
+
+.prose img {
+  @apply rounded-lg;
+}
+
+/* 滚动渐入初始状态 */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
