@@ -1,0 +1,20 @@
+---
+import Container from './Container.astro';
+import ThemeToggle from '@components/theme/ThemeToggle';
+import { SITE } from '@lib/constants';
+---
+
+<header class="sticky top-0 z-50 border-b border-border bg-bg/80 backdrop-blur-sm dark:border-border-dark dark:bg-bg-dark/80">
+  <Container>
+    <nav class="flex h-16 items-center justify-between">
+      <a href="/" class="text-lg font-bold hover:text-primary transition-colors">
+        {SITE.title}
+      </a>
+      <div class="flex items-center gap-6">
+        <a href="/tags" class="text-sm hover:text-primary transition-colors">标签</a>
+        <a href="/about" class="text-sm hover:text-primary transition-colors">关于</a>
+        <ThemeToggle />
+      </div>
+    </nav>
+  </Container>
+</header>
