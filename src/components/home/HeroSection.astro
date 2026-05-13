@@ -1,9 +1,12 @@
 ---
 import Container from '@components/layout/Container.astro';
 import TypewriterTitle from '@components/home/TypewriterTitle';
+import ParticleBackground from '@components/home/ParticleBackground';
 ---
 
 <section class="relative flex min-h-[70vh] items-center justify-center overflow-hidden">
+  <ParticleBackground client:load />
+
   <Container class="relative z-10 text-center">
     <h1 class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
       Hi，我是{' '}
