@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import PostCard from '@components/posts/PostCard.astro';
 import Container from '@components/layout/Container.astro';
+import ScrollReveal from '@components/home/ScrollReveal';
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -11,7 +12,11 @@ const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueO
   <Container>
     <h2 class="mb-8 text-2xl font-bold">最新文章</h2>
     <div class="grid gap-6 sm:grid-cols-2">
-      {posts.map(post => <PostCard post={post} />)}
+      {posts.map(post => (
+        <ScrollReveal client:load threshold={0.05}>
+          <PostCard post={post} />
+        </ScrollReveal>
+      ))}
     </div>
 
     {posts.length === 0 && (

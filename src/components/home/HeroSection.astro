@@ -1,11 +1,17 @@
 ---
 import Container from '@components/layout/Container.astro';
+import TypewriterTitle from '@components/home/TypewriterTitle';
 ---
 
 <section class="relative flex min-h-[70vh] items-center justify-center overflow-hidden">
   <Container class="relative z-10 text-center">
     <h1 class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-      Hi，我是 <span class="text-primary dark:text-primary-dark">muzuwuqing</span>
+      Hi，我是{' '}
+      <TypewriterTitle
+        texts={['muzuwuqing', '全栈开发者', '开源爱好者']}
+        class="text-primary dark:text-primary-dark"
+        client:load
+      />
     </h1>
     <p class="mx-auto max-w-lg text-lg text-text/70 dark:text-text-dark/70">
       全栈开发者，热爱开源与创造。这里记录我的思考、学习和项目。
