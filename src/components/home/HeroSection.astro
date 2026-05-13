@@ -1,0 +1,37 @@
+---
+import Container from '@components/layout/Container.astro';
+import TypewriterTitle from '@components/home/TypewriterTitle';
+import ParticleBackground from '@components/home/ParticleBackground';
+---
+
+<section class="relative flex min-h-[70vh] items-center justify-center overflow-hidden">
+  <ParticleBackground client:load />
+
+  <Container class="relative z-10 text-center">
+    <h1 class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+      Hi，我是{' '}
+      <TypewriterTitle
+        texts={['muzuwuqing', '全栈开发者', '开源爱好者']}
+        class="text-primary dark:text-primary-dark"
+        client:load
+      />
+    </h1>
+    <p class="mx-auto max-w-lg text-lg text-text/70 dark:text-text-dark/70">
+      全栈开发者，热爱开源与创造。这里记录我的思考、学习和项目。
+    </p>
+    <div class="mt-8 flex justify-center gap-4">
+      <a
+        href="/about"
+        class="rounded-lg bg-primary px-6 py-2.5 text-sm font-medium text-white transition-all hover:opacity-90 hover:shadow-lg"
+      >
+        了解更多
+      </a>
+      <a
+        href="/tags"
+        class="rounded-lg border border-border px-6 py-2.5 text-sm font-medium transition-all hover:border-primary hover:text-primary dark:border-border-dark dark:hover:border-primary-dark dark:hover:text-primary-dark"
+      >
+        浏览标签
+      </a>
+    </div>
+  </Container>
+</section>

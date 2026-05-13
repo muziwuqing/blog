@@ -4,56 +4,58 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-基于 Next.js (App Router) + TypeScript + Tailwind CSS 的个人博客，绑定 `muzuwuqing.com`。Markdown/MDX 内容管理，静态生成优先。
+基于 Astro + Preact + Tailwind CSS + MDX 的个人博客，绑定 `muzuwuqing.com`。纯静态输出，Content Collections 管理文章。
 
-详见 [PLAN.md](PLAN.md)。
+详见 [docs/superpowers/specs/2026-05-12-blog-design.md](docs/superpowers/specs/2026-05-12-blog-design.md)。
 
 ## 常用命令
 
 ```bash
-npm run dev        # 开发服务器
-npm run build      # 生产构建
-npm run start      # 生产运行
-npm run lint       # ESLint
+pnpm dev        # 开发服务器 (localhost:4321)
+pnpm build      # 生产构建
+pnpm preview    # 预览构建产物
 ```
 
 ## 核心架构
 
 ### 数据层
 
-`src/lib/posts.ts` 是唯一内容入口，所有页面和功能都通过它获取文章数据。导出函数：
-
-- `getAllPosts()` — 全量文章列表（过滤 draft），用于首页/RSS/sitemap
-- `getPostBySlug(slug)` — 单篇文章详情
-- `getAllTags()` — 标签云数据（tag → count）
-- `getPostsByTag(tag)` — 按标签筛选
-
-文章清单用 gray-matter 轻量解析 frontmatter；文章详情用 next-mdx-remote 的 `compileMDX` 完整编译。
+- Content Collections (`src/content/posts/`) 是唯一数据源
+- `astro:content` 的 `getCollection('posts')` 读取文章，按 frontmatter 过滤/排序
+- 类型由 Astro 自动生成 (`.astro/types.d.ts`)
 
 ### 组件分层
 
-- **服务端组件** — 绝大多数组件都是服务端，数据直接通过 `src/lib/posts.ts` 获取
-- **客户端组件** — 仅 4 个：`ThemeProvider`、`ThemeToggle`、`Pagination`、`GiscusComments`，集中在 `src/components/` 下，通过各自的 `'use client'` 边界
+- `.astro` 组件 — 绝大多数组件，服务端渲染，零 JS
+- `.tsx`（Preact）组件 — 仅用于客户端交互：主题切换、动效、打字机、粒子背景
+- Preact 组件通过 `client:load` 指令在 Astro 中按需加载（Island Architecture）
+
+### 动效架构（三层独立）
+
+1. CSS 层 — 暗色过渡、hover 效果（`src/styles/global.css`，零 JS）
+2. 页面动效 — 滚动渐入 (`ScrollReveal.tsx`)、打字机 (`TypewriterTitle.tsx`)
+3. 背景特效 — 粒子网络 (`ParticleBackground.tsx`)，Hero 区限定
+
+每层独立，移除组件即可关闭对应效果。
 
 ### 文件命名
 
-- 组件文件用 kebab-case：`post-card.tsx`、`tag-badge.tsx`
-- lib/ 和 types/ 文件用 kebab-case
-- 路由目录用 kebab-case：`posts/[slug]/page.tsx`、`tags/[tag]/page.tsx`
-- 页面文件统一用 Next.js 约定文件名：`page.tsx`、`layout.tsx`、`loading.tsx`、`not-found.tsx`、`sitemap.ts`、`robots.ts`
+- Astro 组件用 PascalCase：`Header.astro`、`PostCard.astro`
+- Preact 组件用 PascalCase：`ThemeToggle.tsx`、`ScrollReveal.tsx`
+- lib 文件用 kebab-case：`constants.ts`、`utils.ts`
+- 路由文件用 Astro 约定：`index.astro`、`[slug].astro`、`404.astro`
 
 ### 关键约定
 
-- 文章配置存储在 `src/lib/constants.ts`（站点名、URL、分页数、Giscus 配置）
-- Tailwind 暗色模式用 `class` 策略，由 next-themes 管理
+- 站点配置在 `src/lib/constants.ts`
+- 暗色模式用 Tailwind `class` 策略 + 内联 script 防闪烁
 - 文章 frontmatter：`title`、`date`、`description`、`tags`（string[]）、`draft`（boolean）
-- `draft: true` 的文章生产环境不呈现
-- 代码高亮：rehype-pretty-code + shiki
-- RSS 用 `feed` 包，Route Handler 方式实现
+- `draft: true` 的文章所有查询都需要过滤 `({ data }) => !data.draft`
+- Content Collection 使用 `astro/loaders` 的 `glob` loader，配置文件为 `src/content.config.ts`
+- `@tsparticles/preact` 为 CJS 包，需用默认导入后解构
 
 ### 验证清单
 
-1. `npm run dev` 热更新正常，MDX 修改即时可见
-2. `npm run build` 无错误，SSG 生成成功
-3. 浏览器走通：首页列表 → 文章详情 → 暗色切换 → 标签筛选 → 评论
-4. `/feed.xml`、`/sitemap.xml`、`/robots.txt` 可访问
+1. `pnpm dev` 开发服务器正常，MDX 修改即时可见
+2. `pnpm build` 无错误，静态页面生成成功
+3. 浏览器走通：首页列表 → 文章详情 → 暗色切换 → 标签筛选

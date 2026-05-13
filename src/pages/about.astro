@@ -1,0 +1,29 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Container from '@components/layout/Container.astro';
+import ScrollReveal from '@components/home/ScrollReveal';
+---
+
+<Layout title="关于">
+  <Container class="py-16">
+    <ScrollReveal client:load>
+      <h1 class="mb-8 text-3xl font-bold">关于我</h1>
+    </ScrollReveal>
+
+    <ScrollReveal client:load>
+      <div class="prose prose-slate dark:prose-invert max-w-none">
+        <p>全栈开发者，热爱开源与创造。</p>
+        <h2>技能</h2>
+        <ul>
+          <li><strong>前端：</strong>TypeScript, React, Next.js, Astro, Tailwind CSS</li>
+          <li><strong>后端：</strong>Node.js, Python, PostgreSQL</li>
+          <li><strong>工具：</strong>Git, Docker, Linux</li>
+        </ul>
+        <h2>联系</h2>
+        <ul>
+          <li>GitHub: <a href="https://github.com/muziwuqing">@muziwuqing</a></li>
+        </ul>
+      </div>
+    </ScrollReveal>
+  </Container>
+</Layout>
